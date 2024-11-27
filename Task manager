@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="task-container">
+        <h1>Task Manager</h1>
+
+        <div class="task-input">
+            <input type="text" id="task-input" placeholder="Enter a task">
+            <button id="add-task-btn">Add Task</button>
+        </div>
+
+        <ul id="task-list"></ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.task-container {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.task-input {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#task-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#add-task-btn {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-task-btn:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+li.completed {
+    text-decoration: line-through;
+    background-color: #e0e0e0;
+}
+
+button.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+button.delete-btn:hover {
+    background-color: #e53935;
+}
+
+button.complete-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+button.complete-btn:hover {
+    background-color: #45a049;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const taskInput = document.getElementById('task-input');
+    const addTaskBtn = document.getElementById('add-task-btn');
+    const taskList = document.getElementById('task-list');
+
+    // Function to add a task
+    function addTask(taskContent) {
+        const li = document.createElement('li');
+        li.classList.add('task-item');
+
+        const taskText = document.createElement('span');
+        taskText.textContent = taskContent;
+        li.appendChild(taskText);
+
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = 'Complete';
+        completeBtn.classList.add('complete-btn');
+        completeBtn.addEventListener('click', () => {
+            li.classList.toggle('completed');
+        });
+        li.appendChild(completeBtn);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            li.remove();
+        });
+        li.appendChild(deleteBtn);
+
+        taskList.appendChild(li);
+    }
+
+    // Add task on button click
+    addTaskBtn.addEventListener('click', () => {
+        const taskContent = taskInput.value.trim();
+        if (taskContent) {
+            addTask(taskContent);
+            taskInput.value = ''; // Clear the input field
+        }
+    });
+
+    // Add task on Enter key press
+    taskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const taskContent = taskInput.value.trim();
+            if (taskContent) {
+                addTask(taskContent);
+                taskInput.value = ''; // Clear the input field
+            }
+        }
+    });
+});
